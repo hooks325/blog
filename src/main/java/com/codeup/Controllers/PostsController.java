@@ -1,11 +1,12 @@
 package com.codeup.Controllers;
 
+import com.codeup.models.Post;
+import com.codeup.repositories.Posts;
+import com.codeup.services.PostSvc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,45 +17,41 @@ import java.util.List;
 @Controller
 public class PostsController {
 
+    @Autowired
+    PostSvc postService;
+
+    @Autowired
+    Posts postsDao;
+
     @GetMapping("/posts")
     public String postIndex(Model model) {
-        List<Post> list = new ArrayList<>();
-        Post post1 = new Post();
-        Post post2 = new Post();
-
-        post1.setTitle("Post1 Title");
-        post1.setBody("This is the body of post1.");
-        post2.setTitle("Post2 Title");
-        post2.setBody("This is the body of post2.");
-
-        list.add(post1);
-        list.add(post2);
-        model.addAttribute("postList", list);
-
-        return "posts/index";
+        model.addAttribute("posts", postsDao.findAll());
+        return "/posts/index";
     }
 
     @GetMapping("/posts/{id}")
     public String postId(@PathVariable long id, Model model) {
-        Post post = new Post();
-
-        post.setTitle("Post Title");
-        model.addAttribute("postTitle", post.getTitle());
-
-        post.setBody("This is a body of a post");
-        model.addAttribute("postBody", post.getBody());
-        return "show";
+        Post onePost = postsDao.findOne(id);
+        model.addAttribute("post", onePost);
+        return "/posts/show";
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
-    public String postCreate() {
-        return "view the form for creating a post";
+    public String postCreate(Model model) {
+        model.addAttribute("post", new Post());
+        return "/posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String createPosts() {
-        return "create a new post";
+    public String createPosts( @ModelAttribute Post post, Model model) {
+        postsDao.save(post);
+        model.addAttribute("post", post);
+        return "redirect:/posts";
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String editPost(@ModelAttribute Post post, Model model, @PathVariable long id){
+        model.addAttribute("post", postsDao.findOne(id));
+        return "/posts/edit";
     }
 }
