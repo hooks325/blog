@@ -50,8 +50,15 @@ public class PostsController {
     }
 
     @GetMapping("/posts/{id}/edit")
-    public String editPost(@ModelAttribute Post post, Model model, @PathVariable long id){
+    public String editPost(Model model, @PathVariable long id){
         model.addAttribute("post", postsDao.findOne(id));
         return "/posts/edit";
     }
+
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(@ModelAttribute Post post, Model model) {
+        postsDao.save(post);
+        return "redirect:/posts";
+    }
+
 }
