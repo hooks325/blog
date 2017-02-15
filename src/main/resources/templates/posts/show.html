@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
-</head>
+<div th:include="fragments/header :: header"></div>
 <body>
-    <h1 th:text="${post.title}"/>
-    <p th:text="${post.body}" />
+<div th:include="fragments/navbar :: navbar"></div>
+    <form th:attr="action=${'/posts/' + post.id}" method="post">
+        <h1 th:text="${post.title}"/>
+        <p th:text="${post.body}" />
+        <!--<p th:text="${post.user.email}" />-->
+        <button class="btn">
+            <a th:href="${'/posts/' +post.id+ '/edit'}">Edit</a>
+        </button>
+
+        <input type="submit" value="Delete" class="btn btn-primary" />
+        <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}" />
+    </form>
+
 </body>
 </html>

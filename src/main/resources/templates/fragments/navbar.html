@@ -6,15 +6,27 @@
 </head>
 <body>
     <div th:fragment="navbar">
-        This is the nav bar content
-        <nav>
-            <ul>
-                <li>Link 1</li>
-                <li>Link 2</li>
-                <li>Link 3</li>
-            </ul>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <form th:action="@{/logout}" th:method="POST">
+                    <button type="submit" class="btn btn-default navbar-btn navbar-right">Logout</button>
+                </form>
+            </div>
         </nav>
+
+
+        <!--<nav class="navbar navbar-default navbar-fixed-top">-->
+            <!--<ul>-->
+                <!--<li>Link 1</li>-->
+                <!--<li>Link 2</li>-->
+                <!--<li>Link 3</li>-->
+                <!--<form th:action="@{/logout}" th:method="POST">-->
+                    <!--<button type="submit" class="btn btn-default navbar-btn">Logout</button>-->
+                <!--</form>-->
+            <!--</ul>-->
+        <!--</nav>-->
     </div>
+
 
 </body>
 </html>

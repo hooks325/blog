@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
-</head>
+<div th:include="fragments/header :: header"></div>
 <body>
-    <form th:attr="action=${'/posts/' + post.id + '/edit'}" method="post" th:object="${post}">
-        <label for="title">Title:</label>
-        <input th:field="*{title}" id="title" />
+<div th:include="fragments/navbar :: navbar"></div>
+<div class="container">
+    <form th:action="@{'/posts/' + *{id} + '/edit'}" method="post" th:object="${post}">
 
-        <label for="body">Body:</label>
-        <input th:field="*{body}" id="body" />
-        <input type="submit" />
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input th:field="*{title}" class="form-control" id="title" />
+        </div>
+
+        <div class="form-group">
+            <label for="body">Body:</label>
+            <input th:field="*{body}" class="form-control" id="body" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" />
+        </div>
+        <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}" />
     </form>
+</div>
 </body>
 </html>

@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
-</head>
+<div th:include="fragments/header :: header"></div>
 <body>
-    <form action="/posts/create" method="post" th:object="${post}">
-        <label for="title">Title:</label>
-        <input th:field="*{title}" id="title" />
+<div class="container">
+    <div th:include="fragments/navbar :: navbar"></div>
+    <div class="jubotron">
+        <h1>Create a new Post</h1>
+    </div>
+    <form th:action="@{/posts/create}" method="post" th:object="${post}">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input th:field="*{title}" class="form-control" id="title" />
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
+        </div>
 
-        <label for="body">Body:</label>
-        <input th:field="*{body}" id="body" />
-        <input type="submit" />
+        <div class="form-group">
+            <label for="body">Body:</label>
+            <input th:field="*{body}" class="form-control" id="body" />
+            <p th:if="${#fields.hasErrors('body')}" th:errors="*{body}" />
+        </div>
+
+        <div>
+            <input type="submit" class="btn btn-primary" />
+        </div>
     </form>
+</div>
 </body>
 </html>

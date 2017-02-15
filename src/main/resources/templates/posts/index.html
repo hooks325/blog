@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
-</head>
+<div th:include="fragments/header :: header"></div>
 <body>
-    <div style="display: inline-block; margin: 4em;" th:each="post : ${posts}" >
-        <h1 th:text="${post.title}"></h1>
-        <p th:text="${post.body}"></p>
+<div th:include="fragments/navbar :: navbar"></div>
+<div class="container">
+    <div id="load-posts"></div>
 
-    </div>
+    <!--<div style="display: inline-block; margin: 4em;" th:each="post : ${posts}" >-->
+        <!--<a th:href="${'/posts/'+post.id}"><h1 th:text="${post.title}"></h1></a>-->
+        <!--<p th:text="${post.body}"></p>-->
+    <!--</div>-->
+    <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}" />
+    <script src="/scripts/posts-list.js"></script>
+</div>
 </body>
 </html>
